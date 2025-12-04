@@ -1,47 +1,70 @@
-🚀 Run the Project (Frontend + Backend)
+============================================================
+           📚 Library Management System — Run Guide
+============================================================
 
-Follow these steps after cloning the repository:
+Follow these steps to run the project after cloning the repository.
 
-1️⃣ Clone the Project
+
+------------------------------------------------------------
+1️⃣  Clone the Repository
+------------------------------------------------------------
 git clone <repo-url>
 cd <project-folder>
 
-🗄️ Backend Setup (NestJS + Prisma)
-cd library-backend
-npm install
 
-Create .env
-DATABASE_URL="your_postgres_url_here"
-JWT_SECRET="your_secret_key"
-JWT_EXPIRES_IN=86400
+============================================================
+🗄️  BACKEND SETUP (NestJS + Prisma + PostgreSQL)
+============================================================
 
-Run Prisma migrations
-npx prisma migrate dev
+1. Navigate to backend folder:
+   cd library-backend
 
-Start backend
-npm run start:dev
+2. Install dependencies:
+   npm install
+
+3. Create a .env file in the backend root:
+   ---------------------------------------
+   DATABASE_URL="your_postgres_connection_string"
+   JWT_SECRET="your_secret_key"
+   JWT_EXPIRES_IN=86400
+   ---------------------------------------
+
+4. Run Prisma migrations:
+   npx prisma migrate dev
+
+5. Start the backend server:
+   npm run start:dev
+
+Backend is now running at:
+➡️  http://localhost:3000
 
 
-Backend runs at:
+============================================================
+🎨  FRONTEND SETUP (React + Vite + TailwindCSS)
+============================================================
 
-http://localhost:3000
+1. Navigate to frontend folder:
+   cd lms-frontend
 
-🎨 Frontend Setup (React + Vite + Tailwind)
-cd lms-frontend
-npm install
-npm run dev
+2. Install dependencies:
+   npm install
+
+3. Start the frontend:
+   npm run dev
+
+Frontend is now running at:
+➡️  http://localhost:5173
 
 
-Frontend runs at:
+============================================================
+✅  PROJECT READY
+============================================================
 
-http://localhost:5173
+- Keep the backend running on port 3000
+- Keep the frontend running on port 5173
+- Open the application in your browser:
 
-✅ Done
+  👉  http://localhost:5173
 
-Keep backend running on port 3000
-
-Keep frontend running on port 5173
-
-Open browser → http://localhost:5173
-
-Your LMS is ready 🚀
+Your Library Management System is now up and running 🚀
+============================================================
