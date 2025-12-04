@@ -1,0 +1,15 @@
+# Node dependencies
+lms-frontend/node_modules/
+lms-backend/node_modules/
+
+# Environment files
+lms-frontend/.env
+lms-backend/.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output (optional)
+frontend/dist/
+backend/dist/
