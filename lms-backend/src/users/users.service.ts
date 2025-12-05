@@ -1,17 +1,24 @@
+// src/users/users.service.ts
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserRole } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createUser(data: { name: string; email: string; passwordHash: string }) {
+  async createUser(data: {
+    name: string;
+    email: string;
+    passwordHash: string;
+    role?: UserRole;
+  }) {
     return this.prisma.user.create({
       data: {
         name: data.name,
         email: data.email,
-        password: data.passwordHash,
+        password: data.passwordHash, // ✅ Correct field
+        role: data.role ?? UserRole.USER, // ✅ Default USER
       },
     });
   }
