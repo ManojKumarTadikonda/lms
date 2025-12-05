@@ -1,6 +1,4 @@
-Here is the comprehensive and professional README file formatted in Markdown, covering both the local setup and Docker implementation.
 
-````markdown
 # 📚 Library Management System
 
 A full-stack Library Management System built with **NestJS** and **React**. This project is designed to manage library resources efficiently, featuring a robust backend API and a modern, responsive frontend interface.
