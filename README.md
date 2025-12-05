@@ -130,3 +130,109 @@ Once the servers are running (via Docker or Locally), you can access the applica
 | **Backend API** | [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) |
 
 
+
+-----
+
+## 🔙 Backend Guide
+
+This backend is built with **NestJS** and uses **Prisma** with **PostgreSQL**. Follow the steps below to configure the environment, database, and understand the API structure.
+
+### ⚙️ Configuration
+
+1.  Duplicate the example environment file:
+    ```bash
+    cp .env.example .env
+    ```
+2.  Update `.env` with your specific configuration:
+    ```env
+    DATABASE_URL="postgresql://user:Your_db_password@localhost:5432/mydb?schema=public"
+    JWT_SECRET="your_secure_secret"
+    JWT_EXPIRES_IN=86400
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=Your_db_password
+    POSTGRES_DB=library
+
+    ```
+
+### 🗄️ Database Setup (Prisma)
+
+Run the following commands to initialize the database schema and generating the client:
+
+```bash
+# 1. Migrate database (creates tables)
+npx prisma migrate dev --name init_lms
+
+# 2. Generate Prisma Client
+npx prisma generate
+
+# 3. Seed database (Optional - if seed.ts is configured)
+npm run seed
+```
+
+-----
+
+### 🌐 API Reference
+
+#### 🔐 Authentication & Users
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/auth/signup` | Public | Register new user (`USER` or `ADMIN`). |
+| `POST` | `/auth/login` | Public | Login to receive `accessToken`. |
+| `GET` | `/auth/me` | **Private** | Retrieve current user profile. |
+| `GET` | `/users` | **Admin** | List all registered users. |
+
+> **Note:** For private routes, include the token in the header:
+> `Authorization: Bearer <YOUR_JWT_TOKEN>`
+
+#### 📚 Books & Authors
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/books` | Public | List books. Filters: `authorId`, `isBorrowed`, `search`. |
+| `GET` | `/books/:id` | Public | Get details of a specific book. |
+| `POST` | `/books` | **Admin** | Create a new book entry. |
+| `PATCH` | `/books/:id` | **Admin** | Update book details. |
+| `DELETE`| `/books/:id` | **Admin** | Remove a book. |
+| `GET` | `/authors` | Public | List all authors. |
+| `POST` | `/authors` | **Admin** | Create a new author. |
+| `PATCH` | `/authors/:id`| **Admin** | Update author details. |
+| `DELETE`| `/authors/:id`| **Admin** | Remove author (Cascades delete to books). |
+
+#### 🔄 Borrowing System
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/borrow` | **Private** | Borrow a book (Decrements stock). |
+| `POST` | `/borrow/return`| **Private** | Return a book (Increments stock). |
+| `GET` | `/borrow/me` | **Private** | View current user's borrowed items. |
+
+-----
+
+### 🧠 Key Design Decisions
+
+  * **Role-Based Access Control (RBAC):**
+      * **USER:** Can view library catalog and borrow/return books.
+      * **ADMIN:** Full access, including managing inventory (Authors/Books) and viewing all users.
+  * **Inventory Logic:**
+      * `availableCount` tracks physical copies.
+      * Borrowing decreases count; Returning increases count.
+      * If `availableCount` is 0, the book is marked as out of stock.
+  * **Cascading Deletes:**
+      * Deleting an **Author** automatically removes all their **Books** and associated **Borrow Records** to maintain data integrity.
+  * **Validation:**
+      * All inputs are validated using DTOs and `ValidationPipe` to ensure correct data types and strip malicious fields.
+
+### 📂 Project Structure(backend)
+
+```text
+src/
+├── auth/           # JWT handling, Strategies, Guards
+├── users/          # User management
+├── authors/        # Author CRUD logic
+├── books/          # Book inventory logic
+├── borrow/         # Transaction logic for borrowing/returning
+├── prisma/         # Database connection service
+├── app.module.ts   # Main module
+└── main.ts         # Application entry point
+```
