@@ -129,10 +129,4 @@ Once the servers are running (via Docker or Locally), you can access the applica
 | **Frontend UI** | [http://localhost:5173](https://www.google.com/search?q=http://localhost:5173) |
 | **Backend API** | [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) |
 
-Enjoy building\! 🚀
 
-```
-
-### Next Step
-Would you like me to generate a `docker-compose.yml` file template that matches the structure described in this README?
-```
