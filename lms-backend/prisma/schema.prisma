@@ -43,7 +43,7 @@ model Book {
   description   String?
   publishedYear Int?
   isbn          String?   @unique
-  author        Author    @relation(fields: [authorId], references: [id])
+  author        Author    @relation(fields: [authorId], references: [id],onDelete: Cascade)
   authorId      Int
   availablecount Int       @default(1)
   isBorrowed    Boolean   @default(false)
@@ -56,7 +56,7 @@ model Borrow {
   id         Int          @id @default(autoincrement())
   user       User         @relation(fields: [userId], references: [id])
   userId     Int
-  book       Book         @relation(fields: [bookId], references: [id])
+  book       Book         @relation(fields: [bookId], references: [id],onDelete: Cascade)
   bookId     Int
   status     BorrowStatus @default(BORROWED)
   borrowedAt DateTime     @default(now())

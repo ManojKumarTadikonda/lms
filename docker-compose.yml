@@ -5,10 +5,8 @@ services:
     image: postgres:16
     container_name: lms-postgres
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: library
+    env_file:
+      - ./lms-backend/.env   # <— load POSTGRES_* from here
     ports:
       - "5432:5432"
     volumes:
@@ -21,7 +19,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ./lms-backend/.env
+      - ./lms-backend/.env   # <— same file for DATABASE_URL, etc.
     ports:
       - "3000:3000"
     command: >
